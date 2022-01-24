@@ -4,21 +4,21 @@ import 'package:flutter/material.dart';
 import '../models/cart.dart';
 
 class CartItemWidget extends StatelessWidget {
-  final String id;
-  final int bookId;
+  final String bookId;
+  final int keyBookId;
   final String title;
   final int quantity;
   final double unitPrice;
 
   CartItemWidget(
-      this.id, this.bookId, this.unitPrice, this.quantity, this.title);
+      this.bookId, this.keyBookId, this.unitPrice, this.quantity, this.title);
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: ValueKey(id),
+      key: ValueKey(bookId),
       direction: DismissDirection.endToStart,
-      onDismissed: (direction) { Provider.of<Cart>(context, listen: false).removeItem(bookId); },
+      onDismissed: (direction) { Provider.of<Cart>(context, listen: false).removeItem(keyBookId); },
       background: Container(
         color: Theme.of(context).errorColor,
         margin: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
