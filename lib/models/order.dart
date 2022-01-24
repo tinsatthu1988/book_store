@@ -5,10 +5,10 @@ import 'cart.dart';
 class Order {
   String orderTrackingNumber;
   double totalPrice;
-  List<CartItem> products;
+  List<CartItem> books;
   DateTime dateTime;
 
-  Order({required this.orderTrackingNumber, required this.totalPrice, required this.products, required this.dateTime});
+  Order({required this.orderTrackingNumber, required this.totalPrice, required this.books, required this.dateTime});
 
   // Map toJson() => {
   //   'orderTrackingNumber': orderTrackingNumber,
@@ -26,9 +26,9 @@ class Orders with ChangeNotifier {
     return [..._orders];
   }
 
-  void addOrder(List<CartItem> cartProducts, double total) {
+  void addOrder(List<CartItem> cartBooks, double total) {
     _orders.insert(0, Order(orderTrackingNumber: DateTime.now().millisecondsSinceEpoch.toString(),
-        totalPrice: total, dateTime: DateTime.now(), products: cartProducts));
+        totalPrice: total, dateTime: DateTime.now(), books: cartBooks));
     print(_orders);
     notifyListeners();
   }
