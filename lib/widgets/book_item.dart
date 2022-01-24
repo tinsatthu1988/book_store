@@ -3,11 +3,13 @@ import 'package:provider/provider.dart';
 
 import '../screens/book_detail_screeen.dart';
 import '../models/book.dart';
+import '../models/cart.dart';
 
 class BookItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Book book = Provider.of<Book>(context, listen: false);
+    Cart cart = Provider.of<Cart>(context, listen: false);
 
     return GestureDetector(
       onTap: () => Navigator.of(context)
@@ -35,7 +37,7 @@ class BookItem extends StatelessWidget {
             trailing: IconButton(
               icon: Icon(Icons.shopping_cart),
               color: Theme.of(context).accentColor,
-              onPressed: () {},
+              onPressed: () => cart.addItem(book.id, book.unitPrice, book.title),
             ),
           ),
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'models/cart.dart';
 import 'providers/books_provider.dart';
 import 'screens/books_overview_screen.dart';
 import 'screens/book_detail_screeen.dart';
@@ -13,8 +14,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (ctx) => BooksProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (BuildContext context) => BooksProvider(),),
+        ChangeNotifierProvider(create: (BuildContext context) => Cart(),),
+      ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
