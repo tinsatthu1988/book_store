@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../widgets/books_grid.dart';
 import '../models/cart.dart';
+import '../screens/cart_screen.dart';
 
 enum FilterOptions {
   Favorites,
@@ -50,10 +51,12 @@ class _BooksOverviewScreen extends State<BooksOverviewScreen> {
             builder: (ctx, cartData, childWidget) => Badge(
               child: childWidget!,
               value: cartData.itemCount.toString(),
-              color: Colors.deepOrangeAccent,
+              color: Colors.redAccent,
             ),
             child: IconButton(
-                onPressed: () => {}, icon: Icon(Icons.shopping_cart)
+                onPressed: () =>
+                    Navigator.of(context).pushNamed(CartScreen.routeName),
+                icon: Icon(Icons.shopping_cart)
             ),
           ),
         ],
