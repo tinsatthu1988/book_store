@@ -37,7 +37,15 @@ class BookItem extends StatelessWidget {
             trailing: IconButton(
               icon: Icon(Icons.shopping_cart),
               color: Theme.of(context).accentColor,
-              onPressed: () => cart.addItem(book.id, book.unitPrice, book.title),
+              onPressed: () {
+                cart.addItem(book.id, book.unitPrice, book.title);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Added item to cart!'),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+              },
             ),
           ),
         ),
