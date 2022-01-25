@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import 'cart.dart';
@@ -10,12 +12,12 @@ class Order {
 
   Order({required this.orderTrackingNumber, required this.totalPrice, required this.books, required this.dateTime});
 
-  // Map toJson() => {
-  //   'orderTrackingNumber': orderTrackingNumber,
-  //   'totalPrice': totalPrice,
-  //   'products': products,
-  //   'dateTime': dateTime.toIso8601String()
-  // };
+  Map toJson() => {
+    'orderTrackingNumber': orderTrackingNumber,
+    'totalPrice': totalPrice,
+    'products': books,
+    'dateTime': dateTime.toIso8601String()
+  };
 }
 
 
@@ -29,7 +31,7 @@ class Orders with ChangeNotifier {
   void addOrder(List<CartItem> cartBooks, double total) {
     _orders.insert(0, Order(orderTrackingNumber: DateTime.now().millisecondsSinceEpoch.toString(),
         totalPrice: total, dateTime: DateTime.now(), books: cartBooks));
-    print(_orders);
+    print(json.encode(_orders));
     notifyListeners();
   }
 }

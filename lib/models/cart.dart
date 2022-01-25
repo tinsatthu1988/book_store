@@ -7,6 +7,12 @@ class CartItem {
   double unitPrice;
 
   CartItem({required this.bookId, required this.title, required this.quantity, required this.unitPrice});
+   Map toJson() => {
+    'productId': bookId,
+    'name': title,
+    'quantity': quantity,
+    'unitPrice': unitPrice
+  };
 }
 
 
