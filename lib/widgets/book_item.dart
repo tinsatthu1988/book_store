@@ -43,6 +43,7 @@ class BookItem extends StatelessWidget {
                   SnackBar(
                     content: Text('Added item to cart!'),
                     duration: Duration(seconds: 2),
+                    action: SnackBarAction(label: 'UNDO', onPressed: () => cart.removeSingleItem(book.id),),
                   ),
                 );
               },
