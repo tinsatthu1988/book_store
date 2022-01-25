@@ -15,7 +15,7 @@ class Order {
   Map toJson() => {
     'orderTrackingNumber': orderTrackingNumber,
     'totalPrice': totalPrice,
-    'products': books,
+    'books': books,
     'dateTime': dateTime.toIso8601String()
   };
 }

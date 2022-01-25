@@ -12,7 +12,7 @@ class OrderItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
       ListTile(
-        title: Text('${order.totalPrice}'),
+        title: Text('${order.totalPrice.toStringAsFixed(2)}'),
       ),
     ],);
   }

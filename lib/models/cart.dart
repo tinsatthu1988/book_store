@@ -8,8 +8,8 @@ class CartItem {
 
   CartItem({required this.bookId, required this.title, required this.quantity, required this.unitPrice});
    Map toJson() => {
-    'productId': bookId,
-    'name': title,
+    'bookId': bookId,
+    'title': title,
     'quantity': quantity,
     'unitPrice': unitPrice
   };

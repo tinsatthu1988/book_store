@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../widgets/books_grid.dart';
 import '../models/cart.dart';
 import '../screens/cart_screen.dart';
+import '../widgets/navbar_drawer.dart';
 
 enum FilterOptions {
   Favorites,
@@ -61,6 +62,7 @@ class _BooksOverviewScreen extends State<BooksOverviewScreen> {
           ),
         ],
       ),
+      drawer: NavbarDrawer(),
       body: BooksGrid(_showFavoritesOnly),
     );
   }
