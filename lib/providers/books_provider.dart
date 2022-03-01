@@ -85,7 +85,12 @@ class BooksProvider with ChangeNotifier {
   }
 
   // setter
-  void addBook() {
+  void addBook(Book book) {
+    Book bookWithMaxId = _items.reduce((result, element) => result.id > element.id ? result : element);
+    Book newBook = Book(title: book.title, author: book.author, category: book.category, description: book.description, unitPrice: book.unitPrice, imageUrl: book.imageUrl,
+        id: bookWithMaxId.id + 1);
+
+    _items.add(newBook);
     notifyListeners();
   }
 }
