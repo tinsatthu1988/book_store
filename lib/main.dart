@@ -8,6 +8,7 @@ import 'screens/books_overview_screen.dart';
 import 'screens/book_detail_screeen.dart';
 import 'screens/cart_screen.dart';
 import 'screens/order_screen.dart';
+import 'screens/user_book_screen.dart';
 
 void main() => runApp(const MyApp());
 
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
           BookDetailScreen.routeName: (ctx) => BookDetailScreen(),
           CartScreen.routeName: (ctx) => CartScreen(),
           OrderScreen.routeName: (ctx) => OrderScreen(),
+          UserBookScreen.routeName: (ctx) => UserBookScreen(),
         },
       ),
     );
