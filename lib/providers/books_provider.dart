@@ -93,4 +93,14 @@ class BooksProvider with ChangeNotifier {
     _items.add(newBook);
     notifyListeners();
   }
+
+  void updateBook(int id, Book newBook) {
+    int bookIndex = _items.indexWhere((element) => element.id == id);
+    if (bookIndex >= 0) {
+      _items[bookIndex] = newBook;
+      notifyListeners();
+    } else {
+      print("problem with updating book");
+    }
+  }
 }

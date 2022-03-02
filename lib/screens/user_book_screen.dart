@@ -25,7 +25,7 @@ class UserBookScreen extends StatelessWidget {
       body: Padding(
         padding: EdgeInsets.all(8),
         child: ListView.builder(itemCount: booksData.items.length, itemBuilder: (ctx, idx) => Column(children: [
-          UserBookItemWidget(booksData.items[idx].title, booksData.items[idx].imageUrl),
+          UserBookItemWidget(booksData.items[idx].id, booksData.items[idx].title, booksData.items[idx].imageUrl),
           Divider(),
         ],),),
       ),
