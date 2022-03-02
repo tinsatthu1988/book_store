@@ -103,4 +103,9 @@ class BooksProvider with ChangeNotifier {
       print("problem with updating book");
     }
   }
+
+  void deleteBook(int id) {
+    _items.removeWhere((element) => element.id == id);
+    notifyListeners();
+  }
 }

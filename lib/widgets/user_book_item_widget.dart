@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../screens/book_edit_screen.dart';
+import '../providers/books_provider.dart';
 
 class UserBookItemWidget extends StatelessWidget {
 
@@ -21,7 +23,9 @@ class UserBookItemWidget extends StatelessWidget {
           IconButton(icon: Icon(Icons.edit), color: Theme.of(context).primaryColor, 
             onPressed: () => Navigator.of(context).pushNamed(BookEditScreen.routeName, arguments: id),
           ),
-          IconButton(icon: Icon(Icons.delete), color: Theme.of(context).errorColor, onPressed: () {},),
+          IconButton(icon: Icon(Icons.delete), color: Theme.of(context).errorColor, 
+            onPressed: () => Provider.of<BooksProvider>(context, listen: false).deleteBook(id),
+          ),
       ],),) ,
     );
   }
