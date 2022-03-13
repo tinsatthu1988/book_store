@@ -87,7 +87,7 @@ class BooksProvider with ChangeNotifier {
   }
 
   // setter
-  void addBook(Book book) {
+  Future<void> addBook(Book book) {
     Uri url = Uri.parse('http://10.0.2.2:8081/api/book');
 
     Map<String, String> headers = {
@@ -95,7 +95,7 @@ class BooksProvider with ChangeNotifier {
       'Accept': 'application/json',
     };
 
-    httpClient.post(url, headers: headers, body: json.encode({
+    return httpClient.post(url, headers: headers, body: json.encode({
       'title': book.title,
       'author': book.author,
       'category': book.category,
@@ -106,7 +106,7 @@ class BooksProvider with ChangeNotifier {
       'unitsInStock': 100,
       'active': true
     })).then((response) {
-      print(json.decode(response.body));
+      //print(json.decode(response.body));
       final res = json.decode(response.body);
       Book newBook = Book( title: res['title'],
                             author: res['author'],
@@ -117,7 +117,7 @@ class BooksProvider with ChangeNotifier {
                             id: res['id']
       );
       _items.add(newBook);
-      print(json.encode(newBook));
+      //print(json.encode(newBook));
       notifyListeners();
     });
   }
