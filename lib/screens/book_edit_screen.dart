@@ -81,9 +81,16 @@ class _BookEditScreen extends State<BookEditScreen> {
       Navigator.of(context).pop();
       setState(() {_isLoading = false;});
     } else {
-      Provider.of<BooksProvider>(context, listen: false).addBook(_editedBook).then((value) => {
-          Navigator.of(context).pop(),
-          setState(() {_isLoading = false;}),
+      Provider.of<BooksProvider>(context, listen: false).addBook(_editedBook)
+          .catchError((error) {
+              return showDialog(context: context, builder: (ctx) => AlertDialog(
+                title: Text('Error'), content: Text(error.toString(),),
+                actions: <Widget>[FlatButton(onPressed: () => {Navigator.of(ctx).pop(), setState(() {_isLoading = false;}),}, child: Text('Okay'))]
+              ));
+          })
+          .then((value) => {
+            Navigator.of(context).pop(),
+            setState(() {_isLoading = false;}),
       });
     }
   }
