@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:http/http.dart' as httpClient;
 import '../models/book.dart';
 import 'package:flutter/material.dart';
 
@@ -86,12 +88,38 @@ class BooksProvider with ChangeNotifier {
 
   // setter
   void addBook(Book book) {
-    Book bookWithMaxId = _items.reduce((result, element) => result.id > element.id ? result : element);
-    Book newBook = Book(title: book.title, author: book.author, category: book.category, description: book.description, unitPrice: book.unitPrice, imageUrl: book.imageUrl,
-        id: bookWithMaxId.id + 1);
+    Uri url = Uri.parse('http://10.0.2.2:8081/api/book');
 
-    _items.add(newBook);
-    notifyListeners();
+    Map<String, String> headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    httpClient.post(url, headers: headers, body: json.encode({
+      'title': book.title,
+      'author': book.author,
+      'category': book.category,
+      'description': book.description,
+      'unitPrice': book.unitPrice,
+      'imageUrl': book.imageUrl,
+      'isFavorite': book.isFavorite,
+      'unitsInStock': 100,
+      'active': true
+    })).then((response) {
+      print(json.decode(response.body));
+      final res = json.decode(response.body);
+      Book newBook = Book( title: res['title'],
+                            author: res['author'],
+                            category: res['category'],
+                            description: res['description'],
+                            unitPrice: res['unitPrice'],
+                            imageUrl: res['imageUrl'],
+                            id: res['id']
+      );
+      _items.add(newBook);
+      print(json.encode(newBook));
+      notifyListeners();
+    });
   }
 
   void updateBook(int id, Book newBook) {

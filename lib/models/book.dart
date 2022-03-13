@@ -20,6 +20,17 @@ class Book with ChangeNotifier {
       required this.imageUrl,
       this.isFavorite = false});
 
+  Map toJson() => {
+    'id': id,
+    'title': title,
+    'author': author,
+    'category': category,
+    'description': description,
+    'unitPrice': unitPrice,
+    'imageUrl': imageUrl,
+    'isFavorite': isFavorite,
+  };
+
   void toggleFavoriteStatus() {
     isFavorite = !isFavorite;
     notifyListeners();
