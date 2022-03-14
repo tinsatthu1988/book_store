@@ -122,11 +122,33 @@ class BooksProvider with ChangeNotifier {
     }
   }
 
-  void updateBook(int id, Book newBook) {
+  Future<void> updateBook(int id, Book newBook) async {
     int bookIndex = _items.indexWhere((element) => element.id == id);
     if (bookIndex >= 0) {
-      _items[bookIndex] = newBook;
-      notifyListeners();
+      Uri url = Uri.parse('http://10.0.2.2:8081/api/books/$id');
+      Map<String, String> headers = {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+      };
+
+      try {
+        await httpClient.put(url, headers: headers, body: json.encode({
+          'title': newBook.title,
+          'author': newBook.author,
+          'category': newBook.category,
+          'description': newBook.description,
+          'unitPrice': newBook.unitPrice,
+          'imageUrl': newBook.imageUrl,
+          'favorite': newBook.isFavorite,
+          'unitsInStock': 100,
+          'active': true,
+        }));
+
+        _items[bookIndex] = newBook;
+        notifyListeners();
+      } catch (error) {
+        throw error;
+      }
     } else {
       print("problem with updating book");
     }
