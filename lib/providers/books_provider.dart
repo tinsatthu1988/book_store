@@ -4,7 +4,7 @@ import '../models/book.dart';
 import 'package:flutter/material.dart';
 
 class BooksProvider with ChangeNotifier {
-  final List<Book> _items  = [
+  List<Book> _items  = [
     Book(
       id: 1,
       title: 'The Storyteller: Tales of Life and Music',
@@ -87,25 +87,25 @@ class BooksProvider with ChangeNotifier {
   }
 
   // setter
-  Future<void> addBook(Book book) {
-    Uri url = Uri.parse('http://10.0.2.2:8081/api/books');
+  Future<void> addBook(Book book) async {
+    Uri url = Uri.parse('http://10.0.2.2:8081/api/book');
 
     Map<String, String> headers = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
-
-    return httpClient.post(url, headers: headers, body: json.encode({
-      'title': book.title,
-      'author': book.author,
-      'category': book.category,
-      'description': book.description,
-      'unitPrice': book.unitPrice,
-      'imageUrl': book.imageUrl,
-      'isFavorite': book.isFavorite,
-      'unitsInStock': 100,
-      'active': true
-    })).then((response) {
+    try{
+      final response = await httpClient.post(url, headers: headers, body: json.encode({
+        'title': book.title,
+        'author': book.author,
+        'category': book.category,
+        'description': book.description,
+        'unitPrice': book.unitPrice,
+        'imageUrl': book.imageUrl,
+        'isFavorite': book.isFavorite,
+        'unitsInStock': 100,
+        'active': true
+      }));
       final res = json.decode(response.body);
       Book newBook = Book( title: res['title'],
                             author: res['author'],
@@ -117,9 +117,9 @@ class BooksProvider with ChangeNotifier {
       );
       _items.add(newBook);
       notifyListeners();
-      }).catchError((error) {
+    } catch(error){
       throw error;
-    });
+    }
   }
 
   void updateBook(int id, Book newBook) {
@@ -129,6 +129,33 @@ class BooksProvider with ChangeNotifier {
       notifyListeners();
     } else {
       print("problem with updating book");
+    }
+  }
+
+  Future<void> fetchAndSetBooks() async {
+    Uri url = Uri.parse('http://10.0.2.2:8081/api/books');
+    try {
+      final response = await httpClient.get(url);
+      print(json.decode(response.body)['_embedded']['books']);
+      final extractedData = json.decode(response.body)['_embedded']['books'] as List<dynamic>;
+      final List<Book> loadBooks = [];
+      extractedData.forEach((element) {
+        // print(element);
+        loadBooks.add(Book(
+          id: element['id'],
+          title: element['title'],
+          author: element['author'],
+          category: element['category'],
+          description: element['description'],
+          unitPrice: element['unitPrice'],
+          imageUrl: element['imageUrl'],
+        ));
+      });
+      _items = loadBooks;
+      notifyListeners();
+
+    } catch (error) {
+      throw error;
     }
   }
 

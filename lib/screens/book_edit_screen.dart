@@ -69,7 +69,7 @@ class _BookEditScreen extends State<BookEditScreen> {
     }
   }
 
-  void _saveForm() {
+  Future<void> _saveForm() async {
     bool isValid = _form.currentState!.validate();
     if (!isValid) {
       return;
@@ -81,17 +81,16 @@ class _BookEditScreen extends State<BookEditScreen> {
       Navigator.of(context).pop();
       setState(() {_isLoading = false;});
     } else {
-      Provider.of<BooksProvider>(context, listen: false).addBook(_editedBook)
-          .catchError((error) {
-              return showDialog(context: context, builder: (ctx) => AlertDialog(
-                title: Text('Error'), content: Text(error.toString(),),
-                actions: <Widget>[FlatButton(onPressed: () => {Navigator.of(ctx).pop(), setState(() {_isLoading = false;}),}, child: Text('Okay'))]
-              ));
-          })
-          .then((value) => {
-            Navigator.of(context).pop(),
-            setState(() {_isLoading = false;}),
-      });
+      try {
+        await Provider.of<BooksProvider>(context, listen: false).addBook(_editedBook);
+        Navigator.of(context).pop();
+        setState(() {_isLoading = false;});
+      } catch (error) {
+        await showDialog(context: context, builder: (ctx) => AlertDialog(
+          title: Text('Error'), content: Text(error.toString(),),
+          actions: <Widget>[FlatButton(onPressed: () => {Navigator.of(ctx).pop(), setState(() {_isLoading = false;}),}, child: Text('Okay'))]
+        ));
+      }
     }
   }
 

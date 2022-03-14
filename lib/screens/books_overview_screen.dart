@@ -6,6 +6,7 @@ import '../widgets/books_grid.dart';
 import '../models/cart.dart';
 import '../screens/cart_screen.dart';
 import '../widgets/navbar_drawer.dart';
+import '../providers/books_provider.dart';
 
 enum FilterOptions {
   Favorites,
@@ -19,6 +20,18 @@ class BooksOverviewScreen extends StatefulWidget {
 
 class _BooksOverviewScreen extends State<BooksOverviewScreen> {
   bool _showFavoritesOnly = false;
+  bool _isLoading = false;
+  bool _isInit = true;
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      setState(() { _isLoading = true;});
+      Provider.of<BooksProvider>(context).fetchAndSetBooks().then((value) => setState(() { _isLoading = false; }));
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +76,7 @@ class _BooksOverviewScreen extends State<BooksOverviewScreen> {
         ],
       ),
       drawer: NavbarDrawer(),
-      body: BooksGrid(_showFavoritesOnly),
+      body: _isLoading ? Center(child: CircularProgressIndicator(),) : BooksGrid(_showFavoritesOnly),
     );
   }
 }
