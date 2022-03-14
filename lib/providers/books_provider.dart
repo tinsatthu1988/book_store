@@ -183,8 +183,22 @@ class BooksProvider with ChangeNotifier {
     }
   }
 
-  void deleteBook(int id) {
-    _items.removeWhere((element) => element.id == id);
-    notifyListeners();
+  Future<String> deleteBook(int id) async {
+    Uri url = Uri.parse('http://10.0.2.2:8081/api/books/$id');
+
+    String message = '';
+    try {
+      final response = await httpClient.delete(url);
+      if (response.statusCode == 204) {
+        _items.removeWhere((element) => element.id == id);
+        notifyListeners();
+      } else {
+        // print(json.decode(response.body));
+        message = json.decode(response.body)['message'];
+      }
+      return message;
+    } catch (error) {
+      throw error;
+    }
   }
 }

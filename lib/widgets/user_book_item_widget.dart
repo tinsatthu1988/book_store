@@ -24,7 +24,16 @@ class UserBookItemWidget extends StatelessWidget {
             onPressed: () => Navigator.of(context).pushNamed(BookEditScreen.routeName, arguments: id),
           ),
           IconButton(icon: Icon(Icons.delete), color: Theme.of(context).errorColor, 
-            onPressed: () => Provider.of<BooksProvider>(context, listen: false).deleteBook(id),
+            onPressed: () async {
+              try {
+                String message = await Provider.of<BooksProvider>(context, listen: false).deleteBook(id);
+                if (message != '') {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message),),);
+                }
+              } catch (error) {
+                throw Exception('Deleting failed');
+              }
+            }
           ),
       ],),) ,
     );
