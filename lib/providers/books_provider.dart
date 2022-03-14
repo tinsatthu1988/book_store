@@ -136,10 +136,11 @@ class BooksProvider with ChangeNotifier {
     Uri url = Uri.parse('http://10.0.2.2:8081/api/books');
     try {
       final response = await httpClient.get(url);
-      print(json.decode(response.body)['_embedded']['books']);
+      // ignore: avoid_print
+      //print(json.decode(response.body)['_embedded']['books']);
       final extractedData = json.decode(response.body)['_embedded']['books'] as List<dynamic>;
       final List<Book> loadBooks = [];
-      extractedData.forEach((element) {
+      for (var element in extractedData) {
         // print(element);
         loadBooks.add(Book(
           id: element['id'],
@@ -149,8 +150,9 @@ class BooksProvider with ChangeNotifier {
           description: element['description'],
           unitPrice: element['unitPrice'],
           imageUrl: element['imageUrl'],
+          isFavorite: element['favorite'],
         ));
-      });
+      }
       _items = loadBooks;
       notifyListeners();
 
